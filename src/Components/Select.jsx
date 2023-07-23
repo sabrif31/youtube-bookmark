@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   autoUpdate,
   flip,
@@ -12,11 +12,11 @@ import {
   useRole,
   FloatingFocusManager,
   FloatingList,
-} from '@floating-ui/react';
+} from '@floating-ui/react'
 
-import './select.scss';
-import clsx from 'clsx';
-import {Cancel} from '@mui/icons-material';
+import './select.scss'
+import clsx from 'clsx'
+import {Cancel} from '@mui/icons-material'
 
 /*
 interface SelectContextValue {
@@ -26,15 +26,15 @@ interface SelectContextValue {
   handleSelect: (index: number | null) => void;
 }
 */
-const SelectContext = React.createContext({});
+const SelectContext = React.createContext({})
 
 export function Option({label, beforeLabel, onSelect, onDelete}) {
-  const {activeIndex, selectedIndex, getItemProps, handleSelect} = React.useContext(SelectContext);
+  const {activeIndex, selectedIndex, getItemProps, handleSelect} = React.useContext(SelectContext)
 
-  const {ref, index} = useListItem({label});
+  const {ref, index} = useListItem({label})
 
-  const isActive = activeIndex === index;
-  const isSelected = selectedIndex === index;
+  const isActive = activeIndex === index
+  const isSelected = selectedIndex === index
 
   return (
     <button
@@ -52,8 +52,8 @@ export function Option({label, beforeLabel, onSelect, onDelete}) {
       {...getItemProps({
         onClick: () => {
           if (onSelect) {
-            handleSelect(index);
-            onSelect(index);
+            handleSelect(index)
+            onSelect(index)
           }
         },
       })}>
@@ -63,21 +63,21 @@ export function Option({label, beforeLabel, onSelect, onDelete}) {
         <div className='button-after'>
           <Cancel
             onClick={(e) => {
-              e.stopPropagation();
-              onDelete(index);
+              e.stopPropagation()
+              onDelete(index)
             }}
           />
         </div>
       )}
     </button>
-  );
+  )
 }
 
 function Select({children}) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [activeIndex, setActiveIndex] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(null);
-  const [selectedLabel, setSelectedLabel] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [activeIndex, setActiveIndex] = React.useState(null)
+  const [selectedIndex, setSelectedIndex] = React.useState(null)
+  const [selectedLabel, setSelectedLabel] = React.useState(null)
 
   const {refs, floatingStyles, context} = useFloating({
     placement: 'bottom-start',
@@ -85,24 +85,24 @@ function Select({children}) {
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [flip()],
-  });
+  })
 
-  const elementsRef = React.useRef([]);
-  const labelsRef = React.useRef([]);
+  const elementsRef = React.useRef([])
+  const labelsRef = React.useRef([])
 
   const handleSelect = React.useCallback((index) => {
-    setSelectedIndex(index);
-    setIsOpen(false);
+    setSelectedIndex(index)
+    setIsOpen(false)
     if (index !== null) {
-      setSelectedLabel(labelsRef.current[index]);
+      setSelectedLabel(labelsRef.current[index])
     }
-  }, []);
+  }, [])
 
   function handleTypeaheadMatch(index) {
     if (isOpen) {
-      setActiveIndex(index);
+      setActiveIndex(index)
     } else {
-      handleSelect(index);
+      handleSelect(index)
     }
   }
 
@@ -111,16 +111,16 @@ function Select({children}) {
     activeIndex,
     selectedIndex,
     onNavigate: setActiveIndex,
-  });
+  })
   const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
     selectedIndex,
     onMatch: handleTypeaheadMatch,
-  });
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context, {role: 'listbox'});
+  })
+  const click = useClick(context)
+  const dismiss = useDismiss(context)
+  const role = useRole(context, {role: 'listbox'})
 
   const {getReferenceProps, getFloatingProps, getItemProps} = useInteractions([
     listNav,
@@ -128,7 +128,7 @@ function Select({children}) {
     click,
     dismiss,
     role,
-  ]);
+  ])
 
   const selectContext = React.useMemo(
     () => ({
@@ -138,7 +138,7 @@ function Select({children}) {
       handleSelect,
     }),
     [activeIndex, selectedIndex, getItemProps, handleSelect],
-  );
+  )
 
   //  tabIndex={0}
 
@@ -161,7 +161,7 @@ function Select({children}) {
         </FloatingFocusManager>
       </SelectContext.Provider>
     </>
-  );
+  )
 }
 
-export default Select;
+export default Select

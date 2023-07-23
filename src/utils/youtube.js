@@ -1,9 +1,9 @@
-import {resizeCanvas} from './canvas';
+import {resizeCanvas} from './canvas'
 
 export function parserVideoId(url) {
-  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[7].length === 11 ? match[7] : false;
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  const match = url.match(regExp)
+  return match && match[7].length === 11 ? match[7] : false
 }
 
 /**
@@ -20,9 +20,9 @@ export function parserVideoId(url) {
  */
 // Generate thumbnail from the video
 export const thumbnailCapture = async (canvasId, blockBodyId) => {
-  const video = document.querySelector('video');
-  if (!canvasId) throw console.error('canvasId is required');
-  const canvas = document.getElementById(canvasId);
+  const video = document.querySelector('video')
+  if (!canvasId) throw console.error('canvasId is required')
+  const canvas = document.getElementById(canvasId)
   // let blockBody;
   if (blockBodyId) {
     // blockBody = document.getElementById(blockBodyId);
@@ -58,16 +58,16 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
 
   // Draw the thumbnailz
   // const previousCurrentTime = video.currentTime
-  let imageUrl = '';
-  video.width = video.videoWidth;
-  video.height = video.videoHeight;
+  let imageUrl = ''
+  video.width = video.videoWidth
+  video.height = video.videoHeight
   // video.currentTime = 10; // video.duration * 0.25; = 1/4 video
 
-  const canvasCtx = canvas.getContext('2d');
-  const {xOffset, yOffset, newWidth, newHeight} = resizeCanvas(video, canvas);
-  canvasCtx.drawImage(video, xOffset, yOffset, newWidth, newHeight);
+  const canvasCtx = canvas.getContext('2d')
+  const {xOffset, yOffset, newWidth, newHeight} = resizeCanvas(video, canvas)
+  canvasCtx.drawImage(video, xOffset, yOffset, newWidth, newHeight)
 
-  imageUrl = canvas.toDataURL('image/png');
+  imageUrl = canvas.toDataURL('image/png')
   // HOw declenche manual ????
   /*
     if (anime) {
@@ -91,5 +91,5 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
     }
     */
 
-  return imageUrl;
-};
+  return imageUrl
+}

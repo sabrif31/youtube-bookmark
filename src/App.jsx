@@ -1,34 +1,34 @@
-import React, {useEffect, useState} from 'react';
-import {useLocalStorage} from '@uidotdev/usehooks';
+import React, {useEffect, useState} from 'react'
+import {useLocalStorage} from '@uidotdev/usehooks'
 
-import SideBar from './PanelRight/SideBar';
-import Select, {Option} from './Components/Select';
+import SideBar from './PanelRight/SideBar'
+import Select, {Option} from './Components/Select'
 
-import {parserVideoId} from './utils/youtube';
-import {toHHMMSS} from './utils/date';
+import {parserVideoId} from './utils/youtube'
+import {toHHMMSS} from './utils/date'
 
-import './App.scss';
+import './App.scss'
 
-const mockYoutubeId = 'G1YknY-Ne4E';
+const mockYoutubeId = 'G1YknY-Ne4E'
 
 function App() {
-  const [drawing, saveDrawing] = useLocalStorage('bookmark', null);
-  const [currentVideo, setCurrentVideo] = useState(null);
-  const [data, setData] = useState(drawing);
+  const [drawing, saveDrawing] = useLocalStorage('bookmark', null)
+  const [currentVideo, setCurrentVideo] = useState(null)
+  const [data, setData] = useState(drawing)
 
   useEffect(() => {
-    const currentVideoId = parserVideoId(document.location.href) || mockYoutubeId;
-    if (drawing[currentVideoId]) setCurrentVideo(drawing[currentVideoId]);
-  }, [drawing]);
+    const currentVideoId = parserVideoId(document.location.href) || mockYoutubeId
+    if (drawing[currentVideoId]) setCurrentVideo(drawing[currentVideoId])
+  }, [drawing])
 
   const selectItem = (index) => {
-    console.log('selectItem', index);
-  };
+    console.log('selectItem', index)
+  }
 
   const onDeleteBookmark = async (index) => {
     if (drawing) {
       // const localStorageData = drawing
-      const youtubeId = parserVideoId(document.location.href) || mockYoutubeId;
+      const youtubeId = parserVideoId(document.location.href) || mockYoutubeId
       if (drawing[youtubeId]) {
         // const selectedItem = drawing[youtubeId].bookmark[index];
         if (drawing[youtubeId].bookmark.length > 0) {
@@ -49,16 +49,16 @@ function App() {
               ...currentVideo,
               bookmark: currentVideo.bookmark.filter((_, idx) => idx !== index),
             },
-          });
+          })
           setCurrentVideo((prevState) => ({
             ...prevState,
             bookmark: prevState.bookmark.filter((_, idx) => idx !== index),
-          }));
+          }))
           // selectedItem.remove()
         }
       }
     }
-  };
+  }
 
   return (
     <>
@@ -81,7 +81,7 @@ function App() {
         </Select>
       )}
     </>
-  );
+  )
 }
 
-export default App;
+export default App

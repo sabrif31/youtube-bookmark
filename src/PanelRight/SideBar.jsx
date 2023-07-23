@@ -1,17 +1,17 @@
-import {useEffect, useRef, useState} from 'react';
-import clsx from 'clsx';
-import {useLocalStorage} from '@uidotdev/usehooks';
+import {useEffect, useRef, useState} from 'react'
+import clsx from 'clsx'
+import {useLocalStorage} from '@uidotdev/usehooks'
 
-import './sidebar.scss';
+import './sidebar.scss'
 
 function SideBar() {
-  const [drawing, saveDrawing] = useLocalStorage('bookmark', null);
-  const itemsBookmarkRef = useRef();
-  const [isOpen, setIsOpen] = useState(false);
+  const [drawing, saveDrawing] = useLocalStorage('bookmark', null)
+  const itemsBookmarkRef = useRef()
+  const [isOpen, setIsOpen] = useState(false)
 
   const openSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   useEffect(() => {
     if (isOpen) {
@@ -44,7 +44,7 @@ function SideBar() {
         });
       */
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   return (
     <div className={clsx('sidebar-container', {active: isOpen})}>
@@ -70,7 +70,7 @@ function SideBar() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SideBar;
+export default SideBar
