@@ -5,11 +5,7 @@
  * @param {*} args
  */
 export function log(...args) {
-    console.log(
-        "%cUserscript (React Mode):",
-        "color: purple; font-weight: bold",
-        ...args
-    );
+  console.log('%cUserscript (React Mode):', 'color: purple; font-weight: bold', ...args);
 }
 
 /**
@@ -20,9 +16,9 @@ export function log(...args) {
  * @returns {Promise} - the `fetch` promise
  */
 export function logFetch(arg) {
-    const url = new URL(arg, window.location);
-    log("fetching", `${  url}`);
-    return fetch(`${  url}`, { credentials: "include" });
+  const url = new URL(arg, window.location);
+  log('fetching', `${url}`);
+  return fetch(`${url}`, {credentials: 'include'});
 }
 
 /**
@@ -34,21 +30,21 @@ export function logFetch(arg) {
  * @returns {MutationObserver} - MutationObserver that watches the URL
  */
 export function addLocationChangeCallback(callback) {
-    // Run the callback once right at the start
-    window.setTimeout(callback, 0);
+  // Run the callback once right at the start
+  window.setTimeout(callback, 0);
 
-    // Set up a `MutationObserver` to watch for changes in the URL
-    let oldHref = window.location.href;
-    const body = document.querySelector("body");
-    const observer = new MutationObserver((mutations) => {
-        if (mutations.some(() => oldHref !== document.location.href)) {
-            oldHref = document.location.href;
-            callback();
-        }
-    });
+  // Set up a `MutationObserver` to watch for changes in the URL
+  let oldHref = window.location.href;
+  const body = document.querySelector('body');
+  const observer = new MutationObserver((mutations) => {
+    if (mutations.some(() => oldHref !== document.location.href)) {
+      oldHref = document.location.href;
+      callback();
+    }
+  });
 
-    observer.observe(body, { childList: true, subtree: true });
-    return observer;
+  observer.observe(body, {childList: true, subtree: true});
+  return observer;
 }
 
 /**
@@ -61,29 +57,29 @@ export function addLocationChangeCallback(callback) {
  * @returns {DOMNode}
  */
 export async function awaitElement(selector) {
-    const MAX_TRIES = 60;
-    let tries = 0;
-    return new Promise((resolve, reject) => {
-        function probe() {
-            tries++;
-            return document.querySelector(selector);
-        }
+  const MAX_TRIES = 60;
+  let tries = 0;
+  return new Promise((resolve, reject) => {
+    function probe() {
+      tries++;
+      return document.querySelector(selector);
+    }
 
-        function delayedProbe() {
-            if (tries >= MAX_TRIES) {
-                log("Can't find element with selector", selector);
-                reject();
-                return;
-            }
-            const elm = probe();
-            if (elm) {
-                resolve(elm);
-                return;
-            }
+    function delayedProbe() {
+      if (tries >= MAX_TRIES) {
+        log("Can't find element with selector", selector);
+        reject();
+        return;
+      }
+      const elm = probe();
+      if (elm) {
+        resolve(elm);
+        return;
+      }
 
-            window.setTimeout(delayedProbe, 250);
-        }
+      window.setTimeout(delayedProbe, 250);
+    }
 
-        delayedProbe();
-    });
+    delayedProbe();
+  });
 }

@@ -6,4 +6,3 @@
 // @include https://*.youtube.com/watch?v=*
 // @grant    none
 // ==/UserScript==
-
