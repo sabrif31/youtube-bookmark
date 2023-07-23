@@ -16,7 +16,7 @@ import {
 
 import './select.scss'
 import clsx from 'clsx'
-import {Cancel} from '@mui/icons-material'
+import { Cancel } from '@mui/icons-material'
 
 /*
 interface SelectContextValue {
@@ -28,10 +28,10 @@ interface SelectContextValue {
 */
 const SelectContext = React.createContext({})
 
-export function Option({label, beforeLabel, onSelect, onDelete}) {
-  const {activeIndex, selectedIndex, getItemProps, handleSelect} = React.useContext(SelectContext)
+export function Option({ label, beforeLabel, onSelect, onDelete }) {
+  const { activeIndex, selectedIndex, getItemProps, handleSelect } = React.useContext(SelectContext)
 
-  const {ref, index} = useListItem({label})
+  const { ref, index } = useListItem({ label })
 
   const isActive = activeIndex === index
   const isSelected = selectedIndex === index
@@ -43,7 +43,7 @@ export function Option({label, beforeLabel, onSelect, onDelete}) {
       role='option'
       aria-selected={isActive && isSelected}
       tabIndex={isActive ? 0 : -1}
-      className={clsx({selected: isSelected})}
+      className={clsx({ selected: isSelected })}
       style={{
         // background: isActive ? "#1e1e1e" : "#181a1b",
         // color: isActive ? "#ffffff" : "#c7c7c7",
@@ -73,13 +73,13 @@ export function Option({label, beforeLabel, onSelect, onDelete}) {
   )
 }
 
-function Select({children}) {
+function Select({ children }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [activeIndex, setActiveIndex] = React.useState(null)
   const [selectedIndex, setSelectedIndex] = React.useState(null)
   const [selectedLabel, setSelectedLabel] = React.useState(null)
 
-  const {refs, floatingStyles, context} = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     placement: 'bottom-start',
     open: isOpen,
     onOpenChange: setIsOpen,
@@ -120,9 +120,9 @@ function Select({children}) {
   })
   const click = useClick(context)
   const dismiss = useDismiss(context)
-  const role = useRole(context, {role: 'listbox'})
+  const role = useRole(context, { role: 'listbox' })
 
-  const {getReferenceProps, getFloatingProps, getItemProps} = useInteractions([
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
     listNav,
     typeahead,
     click,
@@ -153,7 +153,7 @@ function Select({children}) {
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
-            className={clsx('select-container', {active: isOpen})}>
+            className={clsx('select-container', { active: isOpen })}>
             <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
               {children}
             </FloatingList>

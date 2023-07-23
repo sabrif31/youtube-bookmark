@@ -1,4 +1,4 @@
-import {resizeCanvas} from './canvas'
+import { resizeCanvas } from './canvas'
 
 export function parserVideoId(url) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
@@ -64,7 +64,7 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
   // video.currentTime = 10; // video.duration * 0.25; = 1/4 video
 
   const canvasCtx = canvas.getContext('2d')
-  const {xOffset, yOffset, newWidth, newHeight} = resizeCanvas(video, canvas)
+  const { xOffset, yOffset, newWidth, newHeight } = resizeCanvas(video, canvas)
   canvasCtx.drawImage(video, xOffset, yOffset, newWidth, newHeight)
 
   imageUrl = canvas.toDataURL('image/png')

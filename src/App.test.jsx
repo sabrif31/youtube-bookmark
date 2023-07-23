@@ -1,5 +1,5 @@
 import React from 'react'
-import {createRoot, root} from 'react-dom/client'
+import { createRoot, root } from 'react-dom/client'
 import App from './App'
 
 it('renders without crashing', () => {

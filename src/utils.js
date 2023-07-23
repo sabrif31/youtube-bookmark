@@ -18,7 +18,7 @@ export function log(...args) {
 export function logFetch(arg) {
   const url = new URL(arg, window.location)
   log('fetching', `${url}`)
-  return fetch(`${url}`, {credentials: 'include'})
+  return fetch(`${url}`, { credentials: 'include' })
 }
 
 /**
@@ -43,7 +43,7 @@ export function addLocationChangeCallback(callback) {
     }
   })
 
-  observer.observe(body, {childList: true, subtree: true})
+  observer.observe(body, { childList: true, subtree: true })
   return observer
 }
 

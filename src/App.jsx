@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react'
-import {useLocalStorage} from '@uidotdev/usehooks'
+import React, { useEffect, useState } from 'react'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 import SideBar from './PanelRight/SideBar'
-import Select, {Option} from './Components/Select'
+import Select, { Option } from './Components/Select'
 
-import {parserVideoId} from './utils/youtube'
-import {toHHMMSS} from './utils/date'
+import { parserVideoId } from './utils/youtube'
+import { toHHMMSS } from './utils/date'
 
 import './App.scss'
+import { log } from './utils'
 
 const mockYoutubeId = 'G1YknY-Ne4E'
 
 function App() {
-  const [drawing, saveDrawing] = useLocalStorage('bookmark', null)
+  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)
   const [currentVideo, setCurrentVideo] = useState(null)
   const [data, setData] = useState(drawing)
 
@@ -43,7 +44,7 @@ function App() {
                 }
             })
             */
-          console.log('delete item', {
+          log('delete item', {
             ...drawing,
             [youtubeId]: {
               ...currentVideo,

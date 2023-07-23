@@ -1,7 +1,7 @@
 import React from 'react'
-import {createRoot} from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import App from './App'
-import {awaitElement, log, addLocationChangeCallback} from './utils'
+import { awaitElement, log, addLocationChangeCallback } from './utils'
 
 import './index.scss'
 
@@ -15,8 +15,10 @@ async function main() {
   // the page has loaded enough for that element to exist.
   const body = await awaitElement('body > div')
   const container = document.createElement('div')
+  container.classList.add('tampermonkey-root')
   body.appendChild(container)
-  createRoot(<App />, container)
+  const root = createRoot(container)
+  root.render(<App />)
 }
 
 // Call `main()` every time the page URL changes, including on first load.

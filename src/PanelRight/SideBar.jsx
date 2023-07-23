@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import {useLocalStorage} from '@uidotdev/usehooks'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 import './sidebar.scss'
 
 function SideBar() {
-  const [drawing, saveDrawing] = useLocalStorage('bookmark', null)
+  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)
   const itemsBookmarkRef = useRef()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -47,26 +47,27 @@ function SideBar() {
   }, [isOpen])
 
   return (
-    <div className={clsx('sidebar-container', {active: isOpen})}>
+    <div className={clsx('sidebar-container', { active: isOpen })}>
       <div id='btn-container-bookmark'>
-        <div id='btn-bookmark' className={clsx({active: isOpen})} onClick={() => openSidebar()}>
+        <div id='btn-bookmark' className={clsx({ active: isOpen })} onClick={() => openSidebar()}>
           <div id='top' />
           <div id='middle' />
           <div id='bottom' />
         </div>
       </div>
-      <div id='box-bookmark' className={clsx({active: isOpen})}>
-        <div id='items-bookmark' ref={itemsBookmarkRef}>
-          {Object.keys(drawing).map((index) => (
-            <div key={index} className='list-navigation'>
-              <img alt='Thumbnail Video' src={drawing[index]?.thumbnail} width='250' />
-              <div className={clsx(`item-bookmark item-bookmark-anime-${index}`)}>
-                <a className='ml12' href={`https://www.youtube.com/watch?v=${drawing[index].id}`}>
-                  {drawing[index].title}
-                </a>
+      <div id='box-bookmark' className={clsx({ active: isOpen })}>
+        <div id='items-bookmark'>
+          {drawing &&
+            Object.keys(drawing).map((index) => (
+              <div key={index} className='list-navigation'>
+                <img alt='Thumbnail Video' src={drawing[index]?.thumbnail} width='250' />
+                <div className={clsx(`item-bookmark item-bookmark-anime-${index}`)}>
+                  <a className='ml12' href={`https://www.youtube.com/watch?v=${drawing[index].id}`}>
+                    {drawing[index].title}
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>
