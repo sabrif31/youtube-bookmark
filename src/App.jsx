@@ -63,13 +63,13 @@ function App() {
 
   return (
     <>
-      <div className='yt-bookmark'>Youtube Bookmark</div>
       <SideBar />
       {currentVideo && (
         <Select>
           {currentVideo.bookmark.length > 0 ? (
             currentVideo.bookmark.map((item) => (
               <Option
+                key={item.secs}
                 onSelect={selectItem}
                 label={item.name}
                 beforeLabel={toHHMMSS(item.secs)}
