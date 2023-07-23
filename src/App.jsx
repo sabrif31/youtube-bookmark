@@ -3,19 +3,19 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 
 import SideBar from './PanelRight/SideBar'
 import Select, { Option } from './Components/Select'
+import AddBookmark from './AddBookmark/AddBookmark'
 
 import { parserVideoId } from './utils/youtube'
 import { toHHMMSS } from './utils/date'
+import { seek } from './utils/video'
 
 import './App.scss'
-import { log } from './utils'
 
-const mockYoutubeId = 'G1YknY-Ne4E'
+const mockYoutubeId = 'QwaFjIU2NXU'
 
 function App() {
-  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)
+  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', {})
   const [currentVideo, setCurrentVideo] = useState(null)
-  const [data, setData] = useState(drawing)
 
   useEffect(() => {
     const currentVideoId = parserVideoId(document.location.href) || mockYoutubeId
@@ -23,40 +23,20 @@ function App() {
   }, [drawing])
 
   const selectItem = (index) => {
-    console.log('selectItem', index)
+    if (index && currentVideo.bookmark[index]) seek(currentVideo.bookmark[index].secs)
   }
 
   const onDeleteBookmark = async (index) => {
-    if (drawing) {
-      // const localStorageData = drawing
-      const youtubeId = parserVideoId(document.location.href) || mockYoutubeId
-      if (drawing[youtubeId]) {
-        // const selectedItem = drawing[youtubeId].bookmark[index];
-        if (drawing[youtubeId].bookmark.length > 0) {
-          // const newLocalStorageDataBookmark = drawing[youtubeId].bookmark.filter(item => Number(item.secs) !== Number(selectedItem.secs));
-
-          /*
-            await saveDrawing('bookmark', {
-                ...drawing,
-                [youtubeId]: {
-                    ...currentVideo,
-                    bookmark: currentVideo.bookmark.filter((_, idx) => idx !== index)
-                }
-            })
-            */
-          log('delete item', {
-            ...drawing,
-            [youtubeId]: {
-              ...currentVideo,
-              bookmark: currentVideo.bookmark.filter((_, idx) => idx !== index),
-            },
-          })
-          setCurrentVideo((prevState) => ({
-            ...prevState,
-            bookmark: prevState.bookmark.filter((_, idx) => idx !== index),
-          }))
-          // selectedItem.remove()
-        }
+    const youtubeId = parserVideoId(document.location.href) || mockYoutubeId
+    if (drawing[youtubeId]) {
+      if (drawing[youtubeId].bookmark.length > 0) {
+        await saveDrawing({
+          ...drawing,
+          [youtubeId]: {
+            ...currentVideo,
+            bookmark: currentVideo.bookmark.filter((_, idx) => idx !== index),
+          },
+        })
       }
     }
   }
@@ -64,6 +44,11 @@ function App() {
   return (
     <>
       <SideBar />
+      <AddBookmark
+        currentVideo={currentVideo}
+        setCurrentVideo={setCurrentVideo}
+        youtubeId={mockYoutubeId}
+      />
       {currentVideo && (
         <Select>
           {currentVideo.bookmark.length > 0 ? (

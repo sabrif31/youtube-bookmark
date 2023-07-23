@@ -1,0 +1,53 @@
+#bookmark-form {
+  display: flex;
+  align-items: center;
+  /*visibility: hidden;*/
+  opacity: 1;
+  width: 190px;
+  transition:
+    visibility 0.25s,
+    opacity 0.25s,
+    width 0.1s;
+
+  button.active {
+    pointer-events: initial;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+#bookmark-name {
+  outline-color: initial;
+  color: rgb(197, 192, 184);
+  font-size: 12px;
+  background-color: transparent;
+  border: 1px solid rgb(124, 115, 102);
+  border-radius: 5px;
+  height: 28px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  padding-left: 5px;
+}
+
+#bookmark,
+#bookmark-add-button {
+  font-size: 12px;
+  height: 32px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  opacity: 0.4;
+  transform: scale(1);
+  transition: 0.1s;
+  pointer-events: none;
+}
+
+#bookmark:hover,
+#bookmark-add-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
