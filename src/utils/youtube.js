@@ -21,7 +21,8 @@ export function parserVideoId(url) {
 // Generate thumbnail from the video
 export const thumbnailCapture = async (canvasId, blockBodyId) => {
   const video = document.querySelector('video')
-  if (!canvasId) throw console.error('canvasId is required')
+  if (!canvasId) throw console.error('canvasId is required') // eslint-disable-next-line no-console
+  if (!blockBodyId) throw console.error('blockBodyId is required') // eslint-disable-line no-console
   const canvas = document.getElementById(canvasId)
   // let blockBody;
   if (blockBodyId) {
@@ -49,7 +50,7 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
                     complete: function() {
                         document.getElementById(blockBodyId).style.display = 'none';
                     },
-                })
+                })yarn
         }
         */
   }
@@ -59,8 +60,10 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
   // Draw the thumbnailz
   // const previousCurrentTime = video.currentTime
   let imageUrl = ''
-  video.width = video.videoWidth
-  video.height = video.videoHeight
+  if (video) {
+    video.width = video.videoWidth
+    video.height = video.videoHeight
+  }
   // video.currentTime = 10; // video.duration * 0.25; = 1/4 video
 
   const canvasCtx = canvas.getContext('2d')

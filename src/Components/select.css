@@ -26,12 +26,13 @@
 }
 
 .select {
+  /*
   position: absolute;
   top: 1086px;
   left: 1649px;
   margin-top: 10px;
   margin-left: 10px;
-
+  */
   padding: 8px;
   border-radius: 4px;
   background-color: #181a1b;

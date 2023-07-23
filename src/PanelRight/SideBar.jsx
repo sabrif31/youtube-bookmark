@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { useLocalStorage } from '@uidotdev/usehooks'
+import useLocalStorage from '../hooks/useLocalStorage'
 
-import './sidebar.scss'
+import './sidebar.css'
 
 function SideBar() {
   const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)

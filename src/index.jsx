@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import { awaitElement, log, addLocationChangeCallback } from './utils'
 
-import './index.scss'
+import './index.css'
 
 log('React script has successfully started')
 

@@ -1,25 +1,35 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import clsx from 'clsx'
 
-import { useLocalStorage } from '@uidotdev/usehooks'
-
+import useLocalStorage from '../hooks/useLocalStorage'
 import { getCurrentTime } from '../utils/video'
+import { thumbnailCapture } from '../utils/youtube'
 
-import './addBookmark.scss'
+import './addBookmark.css'
+
+const styleBodyBg =
+  'position:absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2025; background-color: rgba(0,0,0,0.5); display: none;'
 
 function AddBookmark({ youtubeId }) {
-  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)
+  const canvasRef = useRef()
+  const bodyBgRef = useRef()
+  const [storage, saveStorage] = useLocalStorage('youtube-bookmark', {})
   const [bookmarkLabel, setBookmarkLabel] = useState('')
 
   const handleChange = (e) => {
-    const value = e?.currentTarget.value
+    if (!e) return
+    const {
+      currentTarget: { value },
+    } = e
     setBookmarkLabel(value)
   }
 
-  const saveBookmark = () => {
-    let localStorageData = { ...drawing }
+  const saveBookmark = async (e) => {
+    let localStorageData = { ...storage }
+    // thumbnailCapture
+    thumbnailCapture(canvasRef.current, bodyBgRef.current)
 
-    if (drawing === null || !drawing[youtubeId]) {
+    if (storage === null || !storage[youtubeId]) {
       const videoTitle =
         document?.querySelector('#above-the-fold yt-formatted-string')?.innerText || 'DEBUG'
       const newYtB = {
@@ -30,7 +40,7 @@ function AddBookmark({ youtubeId }) {
       localStorageData = { ...localStorageData, [youtubeId]: newYtB } // Init if not exist
     }
 
-    saveDrawing({
+    await saveStorage({
       ...localStorageData,
       [youtubeId]: {
         ...localStorageData[youtubeId],
@@ -40,11 +50,17 @@ function AddBookmark({ youtubeId }) {
         ],
       },
     })
+    setBookmarkLabel('')
   }
 
   return (
     <div id='bookmark-form'>
-      <input id='bookmark-name' placeholder='Bookmark name' onChange={handleChange} />
+      <input
+        id='bookmark-name'
+        placeholder='Bookmark name'
+        value={bookmarkLabel}
+        onChange={handleChange}
+      />
       <button
         id='bookmark-add-button'
         className={clsx({ active: bookmarkLabel.length > 0 })}
@@ -75,6 +91,29 @@ function AddBookmark({ youtubeId }) {
           />
         </svg>
       </button>
+      <canvas
+        ref={canvasRef}
+        id='capture-video-thumbnail'
+        width='480'
+        height='270'
+        style={{ position: 'absolute', top: 0, right: -500 }}
+      />
+      {/* 
+      <div
+        ref={bodyBgRef}
+        id='block-body'
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 2023,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'none',
+        }}
+      />
+      */}
     </div>
   )
 }

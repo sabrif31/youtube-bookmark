@@ -14,7 +14,7 @@ import {
   FloatingList,
 } from '@floating-ui/react'
 
-import './select.scss'
+import './select.css'
 import clsx from 'clsx'
 import { Cancel } from '@mui/icons-material'
 
