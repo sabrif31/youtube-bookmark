@@ -28,10 +28,10 @@ interface SelectContextValue {
 */
 const SelectContext = React.createContext({})
 
-export function Option({ label, beforeLabel, onSelect, onDelete }) {
+export function Option({ label, beforeLabel, onSelect, onDelete, index }) {
   const { activeIndex, selectedIndex, getItemProps, handleSelect } = React.useContext(SelectContext)
 
-  const { ref, index } = useListItem({ label })
+  const { ref } = useListItem({ label })
 
   const isActive = activeIndex === index
   const isSelected = selectedIndex === index
@@ -60,13 +60,13 @@ export function Option({ label, beforeLabel, onSelect, onDelete }) {
       {beforeLabel && <div className='button-before'>{beforeLabel}</div>}
       <div className='button-label'>{label}</div>
       {onDelete && (
-        <div className='button-after'>
-          <Cancel
-            onClick={(e) => {
-              e.stopPropagation()
-              onDelete(index)
-            }}
-          />
+        <div
+          className='button-after'
+          onClick={(e) => {
+            e.stopPropagation()
+            onDelete(index)
+          }}>
+          <Cancel />
         </div>
       )}
     </button>

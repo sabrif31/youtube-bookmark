@@ -1,4 +1,5 @@
 import { resizeCanvas } from './canvas'
+import { log } from '../utils'
 
 export function parserVideoId(url) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
@@ -19,11 +20,13 @@ export function parserVideoId(url) {
  * @returns string data:image/base64
  */
 // Generate thumbnail from the video
-export const thumbnailCapture = async (canvasId, blockBodyId) => {
+export const thumbnailCapture = async (canvas, blockBodyId) => {
   const video = document.querySelector('video')
-  if (!canvasId) throw console.error('canvasId is required') // eslint-disable-next-line no-console
-  if (!blockBodyId) throw console.error('blockBodyId is required') // eslint-disable-line no-console
-  const canvas = document.getElementById(canvasId)
+  log('video', video)
+  if (!canvas) throw console.error('canvas is required') // eslint-disable-next-line no-console
+  // if (!blockBodyId) throw console.error('blockBodyId is required') // eslint-disable-line no-console
+  // const canvas = document.getElementById(canvasId)
+  log('canvas', canvas)
   // let blockBody;
   if (blockBodyId) {
     // blockBody = document.getElementById(blockBodyId);
@@ -50,7 +53,7 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
                     complete: function() {
                         document.getElementById(blockBodyId).style.display = 'none';
                     },
-                })yarn
+                })
         }
         */
   }
@@ -69,6 +72,8 @@ export const thumbnailCapture = async (canvasId, blockBodyId) => {
   const canvasCtx = canvas.getContext('2d')
   const { xOffset, yOffset, newWidth, newHeight } = resizeCanvas(video, canvas)
   canvasCtx.drawImage(video, xOffset, yOffset, newWidth, newHeight)
+
+  log('imageUrl', canvas.toDataURL('image/png'))
 
   imageUrl = canvas.toDataURL('image/png')
   // HOw declenche manual ????

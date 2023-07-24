@@ -24,9 +24,10 @@ function AddBookmark({ youtubeId }) {
     setBookmarkLabel(value)
   }
 
-  const saveBookmark = async (e) => {
+  const saveBookmark = async () => {
     let localStorageData = { ...storage }
     // thumbnailCapture
+    const canvasReftest = document.getElementById('capture-video-thumbnail')
     thumbnailCapture(canvasRef.current, bodyBgRef.current)
 
     if (storage === null || !storage[youtubeId]) {
@@ -51,10 +52,18 @@ function AddBookmark({ youtubeId }) {
       },
     })
     setBookmarkLabel('')
+    window.dispatchEvent(new CustomEvent('storage', { detail: { youtubeId } }))
   }
 
   return (
     <div id='bookmark-form'>
+      <canvas
+        ref={canvasRef}
+        id='capture-video-thumbnail'
+        width='480'
+        height='270'
+        style={{ position: 'absolute', top: 0, right: -500 }}
+      />
       <input
         id='bookmark-name'
         placeholder='Bookmark name'
@@ -91,13 +100,6 @@ function AddBookmark({ youtubeId }) {
           />
         </svg>
       </button>
-      <canvas
-        ref={canvasRef}
-        id='capture-video-thumbnail'
-        width='480'
-        height='270'
-        style={{ position: 'absolute', top: 0, right: -500 }}
-      />
       {/* 
       <div
         ref={bodyBgRef}
