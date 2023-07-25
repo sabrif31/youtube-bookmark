@@ -4,3 +4,15 @@
   left: 17%;
   z-index: 2025;
 }
+
+.add-bookmark-container {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  z-index: 2025;
+  display: flex;
+  height: 36px;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+}

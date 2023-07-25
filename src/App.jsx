@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import SideBar from './PanelRight/SideBar'
 import Select, { Option } from './Components/Select'
@@ -11,79 +11,124 @@ import { seek } from './utils/video'
 
 import './App.css'
 
-const mockYoutubeId = 'QwaFjIU2NXU'
+function debounce(fn, ms) {
+  let timer
+  return () => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      timer = null
+      fn.apply(this)
+    }, ms)
+  }
+}
 
 function App() {
   const [storage, saveStorage] = useLocalStorage('youtube-bookmark', {})
   const [currentVideo, setCurrentVideo] = useState(null)
+  const [stateStorage, setStateStorage] = useState(storage)
   const [currentVideoID, setCurrentVideoID] = useState('')
+  const addBookmarkContainerRef = useRef()
 
   useEffect(() => {
-    const currentVideoId = parserVideoId(document.location.href) || mockYoutubeId
+    const currentVideoId = parserVideoId(document.location.href)
     setCurrentVideoID(parserVideoId(document.location.href))
     if (storage[currentVideoId]) setCurrentVideo(storage[currentVideoId])
-    console.log(storage)
-  }, [storage])
+  }, [])
 
   const selectItem = (index) => {
-    if (index && currentVideo.bookmark[index]) seek(currentVideo.bookmark[index].secs)
+    if (stateStorage[currentVideoID]?.bookmark?.[index])
+      seek(stateStorage[currentVideoID].bookmark[index].secs)
   }
 
+  const setPositionAddBookmark = () => {
+    const video = document.querySelector('video')
+    const { bottom, right } = video.getBoundingClientRect()
+    addBookmarkContainerRef.current.style.top = `${bottom}px`
+    addBookmarkContainerRef.current.style.left = `${
+      right - addBookmarkContainerRef.current.offsetWidth
+    }px`
+    addBookmarkContainerRef.current.style.opacity = 1
+  }
+
+  /*
   useEffect(() => {
     function listenForStorage(e) {
-      if (storage) {
-        console.log('listenForStorage', storage)
-        setCurrentVideo(storage[e.detail.youtubeId])
-        setCurrentVideoID(e.detail.youtubeId)
-      }
+      // setCurrentVideo(storage[e.detail.youtubeId])
     }
 
-    window.addEventListener('storage', listenForStorage)
+    setTimeout(() => setPositionAddBookmark, 1500)
+
+    document.addEventListener('storage', listenForStorage, false)
     return () => {
-      window.removeEventListener('storage', listenForStorage)
+      document.removeEventListener('storage', listenForStorage)
+    }
+  }, [])
+  */
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', debounce(setPositionAddBookmark, 500))
+    return () => {
+      window.removeEventListener('resize', debounce(setPositionAddBookmark, 500))
     }
   }, [])
 
-  const onDeleteBookmark = async (index) => {
-    const youtubeId = parserVideoId(document.location.href) || mockYoutubeId
-    if (storage[youtubeId]) {
-      console.log(
-        'DELETE',
-        storage[youtubeId].bookmark.filter((_, idx) => idx !== index),
-      )
-      // if (storage[youtubeId].bookmark.length > 0) {
-      await saveStorage({
+  const onDeleteBookmark = (index) => {
+    if (storage[currentVideoID]) {
+      const data = {
         ...storage,
-        [youtubeId]: {
-          ...storage[youtubeId],
-          bookmark: storage[youtubeId].bookmark.filter((_, idx) => idx !== index),
+        [currentVideoID]: {
+          ...storage[currentVideoID],
+          bookmark: storage[currentVideoID].bookmark.filter((_, idx) => idx !== index),
         },
-      })
-      window.dispatchEvent(new CustomEvent('storage', { detail: { youtubeId } }))
-      // }
+      }
+      saveStorage(data)
+      setStateStorage(data)
     }
   }
 
+  const deleteVideoOnBookmark = () => {
+    const test = JSON.parse(localStorage.getItem('youtube-bookmark'))
+    delete test[currentVideoID]
+    saveStorage(test)
+  }
+
+  /*
+  
+            <Option label={<p className='no-item'>0 item found</p>} />
+            */
   return (
     <>
       <SideBar />
-      <div style={{ position: 'absolute', top: 0, left: 250, zIndex: 2025, display: 'flex' }}>
-        <AddBookmark youtubeId={currentVideoID} />
-        <Select>
-          {currentVideo && currentVideo.bookmark.length > 0 ? (
-            currentVideo.bookmark.map((item, index) => (
+      <div ref={addBookmarkContainerRef} className='add-bookmark-container'>
+        {/*
+        <button type='button' onClick={deleteVideoOnBookmark}>
+          Delete video bookmark
+        </button>
+        <AddBookmark
+          youtubeId={currentVideoID}
+          stateStorage={stateStorage}
+          setStateStorage={setStateStorage}
+          saveStorage={saveStorage}
+        />
+        */}
+        <Select
+          currentVideoID={currentVideoID}
+          stateStorage={stateStorage}
+          setStateStorage={setStateStorage}
+          saveStorage={saveStorage}>
+          <div className='all-options'>
+            {stateStorage?.[currentVideoID]?.bookmark.map((item, index) => (
               <Option
                 index={index}
-                key={item.secs}
-                onSelect={selectItem}
+                key={`${item.name}-${item.secs}`}
+                onSelect={() => selectItem(index)}
                 label={item.name}
                 beforeLabel={toHHMMSS(item.secs)}
-                onDelete={onDeleteBookmark}
+                thumbnail={item.thumbnail}
+                onDelete={() => onDeleteBookmark(index)}
               />
-            ))
-          ) : (
-            <Option label={<p className='no-item'>0 item found</p>} />
-          )}
+            ))}
+          </div>
         </Select>
       </div>
     </>

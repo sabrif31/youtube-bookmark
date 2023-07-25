@@ -1,15 +1,24 @@
 #bookmark-form {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   /*visibility: hidden;*/
   opacity: 1;
-  width: 190px;
+  width: 96%;
+  margin: 8px;
+  margin-bottom: 4px;
   transition:
     visibility 0.25s,
     opacity 0.25s,
     width 0.1s;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s !important;
+}
 #bookmark-form button.active {
   pointer-events: initial;
   cursor: pointer;
@@ -20,7 +29,7 @@
   outline-color: initial;
   color: rgb(197, 192, 184);
   font-size: 12px;
-  background-color: transparent;
+  background-color: transparent !important;
   border: 1px solid rgb(124, 115, 102);
   border-radius: 5px;
   height: 28px !important;
@@ -29,6 +38,7 @@
   justify-content: center;
   outline: none;
   padding-left: 5px;
+  width: 100%;
 }
 
 #bookmark,

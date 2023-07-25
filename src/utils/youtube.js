@@ -22,11 +22,9 @@ export function parserVideoId(url) {
 // Generate thumbnail from the video
 export const thumbnailCapture = async (canvas, blockBodyId) => {
   const video = document.querySelector('video')
-  log('video', video)
   if (!canvas) throw console.error('canvas is required') // eslint-disable-next-line no-console
   // if (!blockBodyId) throw console.error('blockBodyId is required') // eslint-disable-line no-console
   // const canvas = document.getElementById(canvasId)
-  log('canvas', canvas)
   // let blockBody;
   if (blockBodyId) {
     // blockBody = document.getElementById(blockBodyId);
@@ -72,8 +70,6 @@ export const thumbnailCapture = async (canvas, blockBodyId) => {
   const canvasCtx = canvas.getContext('2d')
   const { xOffset, yOffset, newWidth, newHeight } = resizeCanvas(video, canvas)
   canvasCtx.drawImage(video, xOffset, yOffset, newWidth, newHeight)
-
-  log('imageUrl', canvas.toDataURL('image/png'))
 
   imageUrl = canvas.toDataURL('image/png')
   // HOw declenche manual ????

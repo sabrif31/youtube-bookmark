@@ -1,4 +1,6 @@
 import * as React from 'react'
+import clsx from 'clsx'
+import { Bookmarks, Cancel } from '@mui/icons-material'
 import {
   autoUpdate,
   flip,
@@ -15,8 +17,7 @@ import {
 } from '@floating-ui/react'
 
 import './select.css'
-import clsx from 'clsx'
-import { Cancel } from '@mui/icons-material'
+import AddBookmark from '../AddBookmark/AddBookmark'
 
 /*
 interface SelectContextValue {
@@ -28,11 +29,13 @@ interface SelectContextValue {
 */
 const SelectContext = React.createContext({})
 
-export function Option({ label, beforeLabel, onSelect, onDelete, index }) {
+export function Option({ label, beforeLabel, onSelect, onDelete, index, thumbnail }) {
   const { activeIndex, selectedIndex, getItemProps, handleSelect } = React.useContext(SelectContext)
 
   const { ref } = useListItem({ label })
 
+  console.log('activeIndex', activeIndex)
+  console.log('selectedIndex', selectedIndex)
   const isActive = activeIndex === index
   const isSelected = selectedIndex === index
 
@@ -52,28 +55,31 @@ export function Option({ label, beforeLabel, onSelect, onDelete, index }) {
       {...getItemProps({
         onClick: () => {
           if (onSelect) {
-            handleSelect(index)
-            onSelect(index)
+            onSelect()
           }
+          handleSelect(index)
         },
       })}>
-      {beforeLabel && <div className='button-before'>{beforeLabel}</div>}
-      <div className='button-label'>{label}</div>
-      {onDelete && (
-        <div
-          className='button-after'
-          onClick={(e) => {
-            e.stopPropagation()
-            onDelete(index)
-          }}>
-          <Cancel />
-        </div>
-      )}
+      {thumbnail && <img src={thumbnail} width={90} alt='label' />}
+      <div className='option-info'>
+        <div className='button-label'>{label}</div>
+        {beforeLabel && <div className='button-before'>{beforeLabel}</div>}
+        {onDelete && (
+          <div
+            className='button-after'
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete()
+            }}>
+            <Cancel />
+          </div>
+        )}
+      </div>
     </button>
   )
 }
 
-function Select({ children }) {
+function Select({ children, currentVideoID, stateStorage, setStateStorage, saveStorage }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [activeIndex, setActiveIndex] = React.useState(null)
   const [selectedIndex, setSelectedIndex] = React.useState(null)
@@ -112,19 +118,20 @@ function Select({ children }) {
     selectedIndex,
     onNavigate: setActiveIndex,
   })
+  /*
   const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
     selectedIndex,
     onMatch: handleTypeaheadMatch,
   })
+  */
   const click = useClick(context)
   const dismiss = useDismiss(context)
   const role = useRole(context, { role: 'listbox' })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
     listNav,
-    typeahead,
     click,
     dismiss,
     role,
@@ -141,11 +148,13 @@ function Select({ children }) {
   )
 
   //  tabIndex={0}
-
+  /*
+  {selectedLabel ?? 'Select...'}
+  */
   return (
     <>
       <div className='select' ref={refs.setReference} {...getReferenceProps()}>
-        {selectedLabel ?? 'Select...'}
+        <Bookmarks />
       </div>
       <SelectContext.Provider value={selectContext}>
         <FloatingFocusManager context={context} modal={false}>
@@ -154,6 +163,12 @@ function Select({ children }) {
             style={floatingStyles}
             {...getFloatingProps()}
             className={clsx('select-container', { active: isOpen })}>
+            <AddBookmark
+              youtubeId={currentVideoID}
+              stateStorage={stateStorage}
+              setStateStorage={setStateStorage}
+              saveStorage={saveStorage}
+            />
             <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
               {children}
             </FloatingList>
