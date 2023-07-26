@@ -68,6 +68,7 @@
 }
 
 .select-container .all-options button {
+  position: relative;
   background-color: #181a1b;
   cursor: pointer;
   color: #c7c7c7;
@@ -75,21 +76,30 @@
   display: flex;
   position: relative;
   align-items: center;
-  border-bottom: 1px solid #3d3d3d;
+  /*border-bottom: 1px solid #3d3d3d;*/
   width: 100%;
 }
-
-.select-container .all-options button:last-child {
-  border-bottom: none;
+.select-container .all-options button:after {
+  content: '';
+  width: 94%;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #3d3d3d;
+  background-color: #c7c7c7;
+  height: 1px;
 }
 
-.select-container .all-options button:first-child {
+.select-container .all-options button:last-child:after {
+  border-top: none !important;
+}
+
+.select-container .all-options button:first-child:after {
   border-top: 1px solid #3d3d3d;
 }
 
 .select-container button:hover {
   cursor: pointer;
-  background-color: #1e1e1e;
+  background-color: rgb(37 37 37);
   color: #ffffff;
 }
 
@@ -103,24 +113,18 @@ button .button-label p.no-item {
   padding: 0px;
   margin: 0px;
 }
-/*
-button .button-before:after {
-  content: '';
-  width: 1px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 4px;
-  background-color: #6f6f6f;
-}
-*/
 
 button .button-after {
   position: absolute;
-  right: 5px;
-  top: 25px;
+  right: 2px;
+  top: 2px;
+  color: red;
+  transition: 0.2s;
 }
 
+button .button-after:hover {
+  transform: scale(1.5);
+}
 /* SELECT */
 .select-container {
   z-index: 10;

@@ -7,6 +7,7 @@
   width: 96%;
   margin: 8px;
   margin-bottom: 4px;
+  border-bottom: 1px solid rgb(124, 115, 102);
   transition:
     visibility 0.25s,
     opacity 0.25s,
@@ -27,11 +28,9 @@ input:-webkit-autofill:focus {
 
 #bookmark-name {
   outline-color: initial;
-  color: rgb(197, 192, 184);
+  color: rgb(219, 219, 219);
   font-size: 12px;
   background-color: transparent !important;
-  border: 1px solid rgb(124, 115, 102);
-  border-radius: 5px;
   height: 28px !important;
   display: flex;
   align-items: center;
@@ -39,6 +38,7 @@ input:-webkit-autofill:focus {
   outline: none;
   padding-left: 5px;
   width: 100%;
+  border: 0;
 }
 
 #bookmark,

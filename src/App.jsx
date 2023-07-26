@@ -50,21 +50,6 @@ function App() {
     addBookmarkContainerRef.current.style.opacity = 1
   }
 
-  /*
-  useEffect(() => {
-    function listenForStorage(e) {
-      // setCurrentVideo(storage[e.detail.youtubeId])
-    }
-
-    setTimeout(() => setPositionAddBookmark, 1500)
-
-    document.addEventListener('storage', listenForStorage, false)
-    return () => {
-      document.removeEventListener('storage', listenForStorage)
-    }
-  }, [])
-  */
-
   useLayoutEffect(() => {
     window.addEventListener('resize', debounce(setPositionAddBookmark, 500))
     return () => {
@@ -93,25 +78,10 @@ function App() {
     setStateStorage(copyStorage)
   }
 
-  /*
-  
-            <Option label={<p className='no-item'>0 item found</p>} />
-            */
   return (
     <>
       <SideBar deleteVideoOnBookmark={deleteVideoOnBookmark} stateStorage={stateStorage} />
       <div ref={addBookmarkContainerRef} className='add-bookmark-container'>
-        {/*
-        <button type='button' onClick={deleteVideoOnBookmark}>
-          Delete video bookmark
-        </button>
-        <AddBookmark
-          youtubeId={currentVideoID}
-          stateStorage={stateStorage}
-          setStateStorage={setStateStorage}
-          saveStorage={saveStorage}
-        />
-        */}
         <Select
           currentVideoID={currentVideoID}
           stateStorage={stateStorage}
