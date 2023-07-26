@@ -62,7 +62,7 @@ function SideBar() {
               <div key={index} className='list-navigation'>
                 <img alt='Thumbnail Video' src={drawing[index]?.thumbnail} width='250' />
                 <div className={clsx(`item-bookmark item-bookmark-anime-${index}`)}>
-                  <a className='ml12' href={`https://www.youtube.com/watch?v=${drawing[index].id}`}>
+                  <a className='ml12' href={`https://www.youtube.com/watch?v=${index}`}>
                     {drawing[index].title}
                   </a>
                 </div>
