@@ -1,6 +1,7 @@
 import * as React from 'react'
 import clsx from 'clsx'
-import { Bookmarks, Cancel } from '@mui/icons-material'
+import { Bookmarks } from '@mui/icons-material'
+import ClearIcon from '@mui/icons-material/Clear'
 import {
   autoUpdate,
   flip,
@@ -71,7 +72,7 @@ export function Option({ label, beforeLabel, onSelect, onDelete, index, thumbnai
               e.stopPropagation()
               onDelete()
             }}>
-            <Cancel />
+            <ClearIcon />
           </div>
         )}
       </div>

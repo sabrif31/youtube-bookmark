@@ -73,12 +73,12 @@ function App() {
   }, [])
 
   const onDeleteBookmark = (index) => {
-    if (storage[currentVideoID]) {
+    if (stateStorage[currentVideoID]) {
       const data = {
-        ...storage,
+        ...stateStorage,
         [currentVideoID]: {
-          ...storage[currentVideoID],
-          bookmark: storage[currentVideoID].bookmark.filter((_, idx) => idx !== index),
+          ...stateStorage[currentVideoID],
+          bookmark: stateStorage[currentVideoID].bookmark.filter((_, idx) => idx !== index),
         },
       }
       saveStorage(data)
@@ -86,10 +86,11 @@ function App() {
     }
   }
 
-  const deleteVideoOnBookmark = () => {
-    const test = JSON.parse(localStorage.getItem('youtube-bookmark'))
-    delete test[currentVideoID]
-    saveStorage(test)
+  const deleteVideoOnBookmark = (videoId) => {
+    const copyStorage = { ...stateStorage }
+    delete copyStorage[videoId]
+    saveStorage(copyStorage)
+    setStateStorage(copyStorage)
   }
 
   /*
@@ -98,7 +99,7 @@ function App() {
             */
   return (
     <>
-      <SideBar />
+      <SideBar deleteVideoOnBookmark={deleteVideoOnBookmark} stateStorage={stateStorage} />
       <div ref={addBookmarkContainerRef} className='add-bookmark-container'>
         {/*
         <button type='button' onClick={deleteVideoOnBookmark}>

@@ -1,12 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import ClearIcon from '@mui/icons-material/Clear'
 import clsx from 'clsx'
-import useLocalStorage from '../hooks/useLocalStorage'
 
 import './sidebar.css'
 
-function SideBar() {
-  const [drawing, saveDrawing] = useLocalStorage('youtube-bookmark', null)
-  const itemsBookmarkRef = useRef()
+function SideBar({ deleteVideoOnBookmark, stateStorage }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const openSidebar = () => {
@@ -57,15 +55,19 @@ function SideBar() {
       </div>
       <div id='box-bookmark' className={clsx({ active: isOpen })}>
         <div id='items-bookmark'>
-          {drawing &&
-            Object.keys(drawing).map((index) => (
+          {stateStorage &&
+            Object.keys(stateStorage).map((index) => (
               <div key={index} className='list-navigation'>
-                <img alt='Thumbnail Video' src={drawing[index]?.thumbnail} width='250' />
+                <img alt='Thumbnail Video' src={stateStorage[index]?.thumbnail} width='250' />
                 <div className={clsx(`item-bookmark item-bookmark-anime-${index}`)}>
                   <a className='ml12' href={`https://www.youtube.com/watch?v=${index}`}>
-                    {drawing[index].title}
+                    {stateStorage[index].title}
                   </a>
                 </div>
+                <ClearIcon
+                  className='delete-bookmark-video'
+                  onClick={() => deleteVideoOnBookmark(index)}
+                />
               </div>
             ))}
         </div>

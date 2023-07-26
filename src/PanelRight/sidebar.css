@@ -167,6 +167,18 @@
   position: absolute;
   top: -50%;
 }
+.delete-bookmark-video {
+  position: absolute;
+  top: 4px;
+  right: 24px;
+  z-index: 2025;
+  color: red;
+  transform: scale(1.5);
+  transition: 0.25s;
+}
+.delete-bookmark-video:hover {
+  transform: scale(1.8);
+}
 /*
   #btn-bookmark {
     position: fixed;
