@@ -20,6 +20,33 @@
 #btn-container-bookmark {
   width: 35px;
   flex-grow: 1;
+  height: 186px;
+  top: 44%;
+  position: absolute;
+  right: 276px;
+  z-index: 2025;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 56px;
+}
+.sidebar-container.active #btn-container-bookmark {
+  right: 264px;
+  background-color: rgb(9, 10, 10);
+}
+#btn-container-bookmark span {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  opacity: 0;
+  font-size: 18px;
+  padding-top: 30px;
+  cursor: pointer;
+  color: #d9d9d9;
+}
+.sidebar-container.active #btn-container-bookmark span {
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.6, 0.05, 0.28, 0.91);
 }
 #btn-bookmark {
   width: 35px;
@@ -43,7 +70,7 @@
 }
 
 #btn-bookmark.active {
-  right: 230px;
+  right: 262px;
   top: calc((100% / 2) - 17px);
 }
 #btn-bookmark.active div {
@@ -104,7 +131,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 8px;
+  padding: 8px 0 8px 8px;
 
   width: 100%;
   height: 100%;
@@ -115,12 +142,25 @@
   box-shadow: 0 0 30px #000000 inset;
 }
 
-#items-bookmark .item-bookmark:hover {
+.list-navigation svg {
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+  transition: 0.25s;
+}
+
+.list-navigation:hover svg {
+  opacity: 1;
+  transform: scale(1.5);
+  pointer-events: all;
+}
+
+#items-bookmark .list-navigation:hover {
   background-color: rgba(52, 56, 56, 0.2);
   border-radius: 5px 0 0 5px;
 }
 
-#items-bookmark .item-bookmark a {
+#items-bookmark .list-navigation a {
   width: 100%;
   max-width: 250px;
   /* height: 140px; */
@@ -130,14 +170,14 @@
   transition: 0.2s;
 }
 
-#items-bookmark .item-bookmark:hover a {
+#items-bookmark .list-navigation:hover a {
   color: #fff !important;
   background-color: #000000b5;
   padding: 5px;
 }
 
 /* BEGIN animateJS */
-#items-bookmark .item-bookmark a .letter {
+#items-bookmark .list-navigation a .letter {
   display: inline-block;
   line-height: 1em;
   opacity: 0; /* animateJS */
@@ -169,15 +209,11 @@
 }
 .delete-bookmark-video {
   position: absolute;
-  top: 4px;
-  right: 24px;
+  top: 31px;
+  right: 5px;
   z-index: 2025;
   color: red;
-  transform: scale(1.5);
   transition: 0.25s;
-}
-.delete-bookmark-video:hover {
-  transform: scale(1.8);
 }
 /*
   #btn-bookmark {

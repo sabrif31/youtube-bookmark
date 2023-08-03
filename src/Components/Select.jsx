@@ -29,6 +29,36 @@ interface SelectContextValue {
   handleSelect: (index: number | null) => void;
 }
 */
+
+/*
+var progressBar = document.querySelector('.ytp-progress-bar-padding')
+var progressBarRect  = {
+    left: progressBar.getBoundingClientRect().left,
+    bottom: progressBar.getBoundingClientRect().bottom,
+}
+console.log('progressBarRect', progressBarRect)
+
+var cursor = document.createElement('div')
+cursor.classList.add('cursor-3')
+cursor.style.cssText  = "position:absolute; left: 116px; z-index:2025; background: aliceblue; top: calc(753px - 29px); width: 10px; height: 25px;"
+document.body.appendChild(cursor)
+
+var video = document.querySelector('video')
+console.log('DURATION', video.duration)
+console.log('currentTime', video.currentTime)
+
+exemple: 
+  Current time | Duration
+  8579.39096   | 15783.341
+
+  Cursor position on the progress bar of the video: 8579 / 15783 * 100 = 54%
+
+TODO:  Position on screen
+var cursor3 = document.querySelector('.cursor-3')
+const leftPosition = (video.currentTime / video.duration) * 100
+cursor3.style.left = Math.round(leftPosition)+'%'
+TODO:  Position on progress in relation to position screen
+*/
 const SelectContext = React.createContext({})
 
 export function Option({ label, beforeLabel, onSelect, onDelete, index, thumbnail }) {
@@ -36,8 +66,6 @@ export function Option({ label, beforeLabel, onSelect, onDelete, index, thumbnai
 
   const { ref } = useListItem({ label })
 
-  console.log('activeIndex', activeIndex)
-  console.log('selectedIndex', selectedIndex)
   const isActive = activeIndex === index
   const isSelected = selectedIndex === index
 

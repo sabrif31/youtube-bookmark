@@ -3,6 +3,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import clsx from 'clsx'
 
 import './sidebar.css'
+import { Menu, MenuItem } from '../Components/ContextMenu'
 
 function SideBar({ deleteVideoOnBookmark, stateStorage }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -47,6 +48,7 @@ function SideBar({ deleteVideoOnBookmark, stateStorage }) {
   return (
     <div className={clsx('sidebar-container', { active: isOpen })}>
       <div id='btn-container-bookmark'>
+        <span onClick={() => openSidebar()}>FERMER</span>
         <div id='btn-bookmark' className={clsx({ active: isOpen })} onClick={() => openSidebar()}>
           <div id='top' />
           <div id='middle' />
@@ -68,6 +70,10 @@ function SideBar({ deleteVideoOnBookmark, stateStorage }) {
                   className='delete-bookmark-video'
                   onClick={() => deleteVideoOnBookmark(index)}
                 />
+                <Menu>
+                  <MenuItem label='Delete' onClick={() => console.log('Back')} />
+                  <MenuItem label='Reload' disabled />
+                </Menu>
               </div>
             ))}
         </div>

@@ -72,7 +72,7 @@
   background-color: #181a1b;
   cursor: pointer;
   color: #c7c7c7;
-  transition: 0.2s;
+  transition: all 0.2s;
   display: flex;
   position: relative;
   align-items: center;
@@ -80,13 +80,22 @@
   width: 100%;
 }
 .select-container .all-options button:after {
+  /*
   content: '';
-  width: 94%;
+  width: 93.5%;
   position: absolute;
   bottom: 0;
-  border-top: 1px solid #3d3d3d;
-  background-color: #c7c7c7;
+  border-top: 1px solid #333333;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(148, 148, 148, 1) 100%);
+  background: linear-gradient(90deg, #1c1c1c 0%, rgb(14 14 14) 100%);
+  */
+  content: '';
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(90deg, rgb(79 75 75) 0%, #1a1a1a 100%);
   height: 1px;
+  left: 0;
 }
 
 .select-container .all-options button:last-child:after {
@@ -94,12 +103,18 @@
 }
 
 .select-container .all-options button:first-child:after {
-  border-top: 1px solid #3d3d3d;
+  /*border-top: 1px solid #3d3d3d;*/
 }
 
 .select-container button:hover {
   cursor: pointer;
-  background-color: rgb(37 37 37);
+  /*background-color: rgb(37 37 37);*/
+  background: linear-gradient(
+    90deg,
+    rgba(24, 26, 27, 1) 0%,
+    rgba(24, 26, 27, 1) 30%,
+    rgba(30, 30, 30, 1) 100%
+  );
   color: #ffffff;
 }
 
@@ -116,8 +131,8 @@ button .button-label p.no-item {
 
 button .button-after {
   position: absolute;
-  right: 2px;
-  top: 2px;
+  right: 5px;
+  top: 39%;
   color: red;
   transition: 0.2s;
 }
